@@ -21,11 +21,13 @@ public class NameServiceImpl implements NameService {
 
     @Override
     public String generateFirstName(Gender gender, Nationality nationality) {
+        log.info("generateFirstName(), Gender {}, Nationality {}", gender, nationality);
         return getRandomName(gender, nationality).getName();
     }
 
     @Override
     public String generateSecondName(String firstName, Gender gender, Nationality nationality) {
+        log.info("generateSecondName(), FirstName {}, Gender {}, Nationality {}", firstName, gender, nationality);
         String secondName = null;
         do{
             secondName = getRandomName(gender, nationality).getName();

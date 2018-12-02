@@ -4,13 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import piotrowski.patryk.namegenerator.entity.Lastname;
 import piotrowski.patryk.namegenerator.entity.enums.Nationality;
 import piotrowski.patryk.namegenerator.entity.enums.Gender;
-import piotrowski.patryk.namegenerator.exception.DataNotFound;
 import piotrowski.patryk.namegenerator.model.Person;
-import piotrowski.patryk.namegenerator.repository.RandomLastnameRepository;
-import piotrowski.patryk.namegenerator.repository.RandomNameRepository;
 import piotrowski.patryk.namegenerator.service.LastnameService;
 import piotrowski.patryk.namegenerator.service.NameService;
 import piotrowski.patryk.namegenerator.service.PersonGeneratorService;
@@ -41,7 +37,7 @@ public class PersonGeneratorServiceImpl implements PersonGeneratorService {
 
     @Override
     public Person generatePerson(Gender gender, Nationality nationality) {
-        log.info("generatePerson()", gender, nationality);
+        log.info("generatePerson(), {}, {}", gender, nationality);
         Person person = generatePersonWithoutCatchException(gender, nationality);
         return person;
     }

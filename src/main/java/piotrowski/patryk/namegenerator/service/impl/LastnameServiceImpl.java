@@ -11,6 +11,10 @@ import piotrowski.patryk.namegenerator.exception.DataNotFound;
 import piotrowski.patryk.namegenerator.repository.RandomLastnameRepository;
 import piotrowski.patryk.namegenerator.service.LastnameService;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class LastnameServiceImpl  implements LastnameService {
 
@@ -19,20 +23,36 @@ public class LastnameServiceImpl  implements LastnameService {
 
     private static final Logger log = LoggerFactory.getLogger(LastnameServiceImpl.class);
 
+    private static final Map<String, String> endOfSurnames;
+
+    static {
+        Map<String, String> ends = new HashMap<>();
+        ends.put("ski", "ska");
+        ends.put("cki", "cka");
+        ends.put("dzki", "dzka");
+
+        endOfSurnames = Collections.unmodifiableMap(ends);
+    }
+
     @Override
     public String generateLastname(Gender gender, Nationality nationality)  {
-        Lastname lastname = getRandomLastname(gender, nationality);
-        String lastNameStr = lastname.getLastname();
+        String lastname = getRandomLastname(gender, nationality).getLastname();
         if(Gender.FEMALE.equals(gender)){
-            if( lastNameStr.endsWith("ski")){
-                lastNameStr = lastNameStr.replace("ski", "ska");
-            } else if( lastNameStr.endsWith("cki")){
-                lastNameStr = lastNameStr.replace("cki", "cka");
-            } else if( lastNameStr.endsWith("dzki")){
-                lastNameStr = lastNameStr.replace("dzki", "dzka");
-            }
+            lastname = replaceEnds(lastname);
         }
-        return lastNameStr;
+        return lastname;
+    }
+
+    String replaceEnds(String lastname) {
+        log.debug("replaceEnds(), {}", lastname);
+        for (Map.Entry<String, String> ends : endOfSurnames.entrySet()){
+            if (lastname.endsWith(ends.getKey())) {
+                log.debug("replace end from {} to {}", ends.getKey(), ends.getValue());
+                lastname = lastname.replace(ends.getKey(), ends.getValue());
+                break;
+            }
+         }
+        return lastname;
     }
 
     private Lastname getRandomLastname(Gender gender, Nationality nationality){
