@@ -2,7 +2,9 @@ package piotrowski.patryk.namegenerator.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import piotrowski.patryk.namegenerator.entity.Lastname;
-import piotrowski.patryk.namegenerator.entity.enums.Country;
+import piotrowski.patryk.namegenerator.entity.enums.Nationality;
+import piotrowski.patryk.namegenerator.exception.DataNotFound;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -12,7 +14,7 @@ public class RandomLastnameRepository extends RandomRepository<Lastname> {
     @Autowired
     EntityManager em;
 
-    public Lastname getRandomLastnameByCountry(Country country) {
+    public Lastname getRandomLastnameByCountry(Nationality country) throws DataNotFound {
         Query countQuery = em.createNativeQuery("select count(*) from Lastname where country = :country");
         countQuery.setParameter("country", country.name());
 

@@ -1,15 +1,15 @@
 package piotrowski.patryk.namegenerator;
 
+import com.beust.jcommander.JCommander;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import piotrowski.patryk.namegenerator.entity.enums.Country;
-import piotrowski.patryk.namegenerator.entity.enums.Gender;
+import piotrowski.patryk.namegenerator.commandLine.model.CommandLineArgs;
 import piotrowski.patryk.namegenerator.model.Person;
-import piotrowski.patryk.namegenerator.service.PersonGeneratorService;
+import piotrowski.patryk.namegenerator.service.CommandLineService;
 
 @SpringBootApplication
 public class NameGeneratorApplication implements CommandLineRunner {
@@ -21,13 +21,22 @@ public class NameGeneratorApplication implements CommandLineRunner {
 	}
 
 	@Autowired
-	PersonGeneratorService personGenerator;
+	CommandLineService commandLineService;
 
 	@Override
-	public void run(String... strings) throws Exception {
+	public void run(String... args) {
+		CommandLineArgs argumets = parseArgs(new CommandLineArgs(), args);
+		Person person = commandLineService.generatePerson(argumets);
+		log.info("Generated person: {}", person);
+	}
 
-		Person person = personGenerator.generatePerson(Gender.FEMALE, Country.PL);
-		log.info(person.toString());
-
+	private CommandLineArgs parseArgs(CommandLineArgs out, String... in){
+		log.debug("Parsing arguments: {}", in);
+		JCommander.newBuilder()
+				.addObject(out)
+				.build()
+				.parse(in);
+		log.debug("Parsing results: {}", out);
+		return out;
 	}
 }

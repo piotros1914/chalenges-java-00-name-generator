@@ -1,6 +1,6 @@
 package piotrowski.patryk.namegenerator.model;
 
-import piotrowski.patryk.namegenerator.entity.enums.Country;
+import piotrowski.patryk.namegenerator.entity.enums.Nationality;
 import piotrowski.patryk.namegenerator.entity.enums.Gender;
 
 public class Person {
@@ -13,7 +13,7 @@ public class Person {
 
     String lastname;
 
-    Country nationality;
+    Nationality nationality;
 
     public Gender getGender() {
         return gender;
@@ -39,11 +39,11 @@ public class Person {
         this.secondName = secondName;
     }
 
-    public Country getNationality() {
+    public Nationality getNationality() {
         return nationality;
     }
 
-    public void setNationality(Country nationality) {
+    public void setNationality(Nationality nationality) {
         this.nationality = nationality;
     }
 

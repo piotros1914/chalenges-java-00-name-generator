@@ -1,6 +1,6 @@
 package piotrowski.patryk.namegenerator.entity;
 
-import piotrowski.patryk.namegenerator.entity.enums.Country;
+import piotrowski.patryk.namegenerator.entity.enums.Nationality;
 import javax.persistence.*;
 
 @Entity()
@@ -13,7 +13,7 @@ public class Lastname {
     private String lastname;
 
     @Enumerated(EnumType.STRING)
-    private Country country;
+    private Nationality country;
 
     public Lastname(){
 
@@ -39,11 +39,11 @@ public class Lastname {
         this.lastname = lastname;
     }
 
-    public Country getCountry() {
+    public Nationality getCountry() {
         return country;
     }
 
-    public void setCountry(Country country) {
+    public void setCountry(Nationality country) {
         this.country = country;
     }
 
